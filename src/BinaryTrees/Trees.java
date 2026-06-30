@@ -106,6 +106,11 @@ public class Trees {
 
 		ArrayList<Integer> rightViewElements = rightView(a);
 		System.out.println("The elements from right view are : " + rightViewElements);
+		
+		Node n1 = h;
+		Node n2 = i;
+		Node ancestor = lowestCommonAncestor(a,n1,n2);
+		System.out.println("The lowest Common Ancestor of "+n1.data+" & "+n2.data+" is : "+ancestor.data);
 
 		Node a1 = new Node(1);
 		Node b2 = new Node(2);
@@ -480,6 +485,36 @@ public class Trees {
 		}
 
 		return result;
+	}
+
+	public static Node lowestCommonAncestor(Node root, Node n1, Node n2) {
+		if (root == null || n1.data==root.data || n2.data==root.data) {
+			return root;
+		}
+		if (hasNode(root.nextRight, n1) && hasNode(root.nextLeft, n2)) {
+			return root;
+		}
+		if (hasNode(root.nextRight, n2) && hasNode(root.nextLeft, n1)) {
+			return root;
+		}
+		if (hasNode(root.nextLeft, n1) && hasNode(root.nextLeft, n2)) {
+			return lowestCommonAncestor(root.nextLeft, n1, n2);
+
+		}
+		if (hasNode(root.nextRight, n1) && hasNode(root.nextRight, n2)) {
+			return lowestCommonAncestor(root.nextRight, n1, n2);
+		}
+		return root;
+	}
+
+	public static boolean hasNode(Node root, Node n1) {
+		if (root == null) {
+			return false;
+		}
+		if (n1.data == root.data) {
+			return true;
+		}
+		return hasNode(root.nextLeft, n1) || hasNode(root.nextRight, n1);
 	}
 
 }
